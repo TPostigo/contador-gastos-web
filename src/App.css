@@ -8,7 +8,8 @@
    6. Filtro
    7. Lista de gastos
    8. Panel de análisis (dashboard)
-   9. Responsive
+   9. Autenticación
+   10. Responsive
    ============================================ */
 
 /* ---------- 1. Contenedor y título ---------- */
@@ -381,6 +382,11 @@
   color: #64748b;
 }
 
+.cifra-prediccion {
+  background: #fefce8;
+  border: 1.5px solid #fde047;
+}
+
 /* Cuadrícula de tarjetas de gráficas */
 
 .analisis-grid {
@@ -460,23 +466,7 @@
   min-width: fit-content;
 }
 
-/* ---------- 9. Responsive ---------- */
-
-@media (max-width: 720px) {
-  .layout-superior {
-    grid-template-columns: 1fr;
-  }
-
-  .analisis-grid {
-    grid-template-columns: 1fr;
-  }
-}
-.cifra-prediccion {
-  background: #fefce8;
-  border: 1.5px solid #fde047;
-}
-
-/* ---------- Autenticación ---------- */
+/* ---------- 9. Autenticación ---------- */
 
 .auth {
   max-width: 400px;
@@ -564,7 +554,7 @@
   padding: 0;
 }
 
-/* ---------- Cabecera con cerrar sesión ---------- */
+/* Cabecera con cerrar sesión */
 
 .app-cabecera {
   display: flex;
@@ -593,7 +583,8 @@
   border-color: #dc2626;
   color: #dc2626;
 }
-/* ---------- Saldo en el resumen ---------- */
+
+/* Saldo en el resumen */
 
 .resumen-saldo {
   margin-bottom: 1rem;
@@ -616,4 +607,82 @@
 
 .saldo-disponible.negativo strong {
   color: #fecaca;
+}
+
+/* ---------- 10. Responsive ---------- */
+
+@media (max-width: 720px) {
+  .app {
+    padding: 1.25rem 1rem 3rem;
+  }
+
+  .app h1 {
+    font-size: 1.5rem;
+  }
+
+  .layout-superior {
+    grid-template-columns: 1fr;
+  }
+
+  .analisis-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Cabecera: título y botón de salir se apilan */
+  .app-cabecera {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  /* Formulario a una sola columna, más cómodo de rellenar con el dedo */
+  .gasto-form {
+    grid-template-columns: 1fr;
+  }
+
+  .gasto-form input[type='text'] {
+    grid-column: 1;
+  }
+
+  /* Cifras del análisis: 2 por fila en vez de apretarse en 5 */
+  .analisis-cifras {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .analisis-cabecera {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .analisis-cabecera button {
+    width: 100%;
+  }
+
+  /* Cada gasto de la lista se convierte en tarjeta apilada */
+  .gasto-item {
+    flex-wrap: wrap;
+    row-gap: 0.35rem;
+  }
+
+  .gasto-desc {
+    flex-basis: 100%;
+  }
+
+  .gasto-item:hover {
+    transform: none;
+  }
+
+  /* Etiquetas del gráfico/barras más estrechas para dejar sitio a la barra */
+  .grafico-etiqueta,
+  .analisis-barra-etiqueta {
+    width: 65px;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .analisis-cifras {
+    grid-template-columns: 1fr;
+  }
 }
