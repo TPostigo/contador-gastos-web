@@ -1,0 +1,619 @@
+/* ============================================
+   CONTADOR DE GASTOS — Estilos
+   1. Contenedor y título
+   2. Layout superior (2 columnas)
+   3. Formulario
+   4. Resumen (tarjeta morada + gráfico)
+   5. Acciones (exportar)
+   6. Filtro
+   7. Lista de gastos
+   8. Panel de análisis (dashboard)
+   9. Responsive
+   ============================================ */
+
+/* ---------- 1. Contenedor y título ---------- */
+
+.app {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.app h1 {
+  text-align: center;
+  font-size: 1.9rem;
+  margin: 0 0 1.75rem;
+  color: #1e1b4b;
+  letter-spacing: -0.5px;
+}
+
+/* ---------- 2. Layout superior ---------- */
+
+.layout-superior {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.columna-derecha {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ---------- 3. Formulario ---------- */
+
+.gasto-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  align-content: center;
+  background: white;
+  padding: 1.25rem;
+  border-radius: 16px;
+  margin-bottom: 0;
+  box-shadow: 0 4px 20px rgba(79, 70, 229, 0.08);
+}
+
+.gasto-form input[type='text'] {
+  grid-column: 1 / -1;
+}
+
+.gasto-form input,
+.gasto-form select {
+  padding: 0.65rem 0.85rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  background: #f8fafc;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.gasto-form input:focus,
+.gasto-form select:focus {
+  outline: none;
+  border-color: #6366f1;
+  background: white;
+}
+
+.gasto-form button {
+  grid-column: 1 / -1;
+  padding: 0.7rem;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.gasto-form button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
+}
+
+.gasto-form button:active {
+  transform: translateY(0);
+}
+
+.gasto-form .btn-cancelar {
+  background: white;
+  color: #6366f1;
+  border: 1.5px solid #6366f1;
+}
+
+.gasto-form .btn-cancelar:hover {
+  background: #eef2ff;
+  box-shadow: none;
+}
+
+/* ---------- 4. Resumen ---------- */
+
+.resumen {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  padding: 1.25rem 1.5rem;
+  border-radius: 16px;
+  margin-bottom: 0;
+  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.25);
+}
+
+.resumen h2 {
+  margin: 0 0 1rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.5);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 8px;
+}
+
+.resumen-grafico {
+  margin-top: 0.75rem;
+}
+
+.resumen-vacio {
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.grafico-fila {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+}
+
+.grafico-etiqueta {
+  width: 90px;
+  text-align: right;
+  font-size: 0.85rem;
+  text-transform: capitalize;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.grafico-barra-fondo {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.grafico-barra {
+  color: #1e1b4b;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.4rem 0.65rem;
+  white-space: nowrap;
+  border-radius: 8px;
+  transition: width 0.4s ease;
+}
+
+/* ---------- 5. Acciones ---------- */
+
+.acciones {
+  margin-bottom: 1rem;
+}
+
+.btn-exportar {
+  padding: 0.4rem 0.95rem;
+  border: 1.5px solid #10b981;
+  border-radius: 999px;
+  background: white;
+  color: #059669;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-exportar:hover {
+  background: #ecfdf5;
+}
+
+/* ---------- 6. Filtro ---------- */
+
+.filtro {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.filtro button {
+  padding: 0.4rem 0.95rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 999px;
+  background: white;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: #475569;
+  cursor: pointer;
+  text-transform: capitalize;
+  transition: all 0.2s;
+}
+
+.filtro button:hover {
+  border-color: #6366f1;
+  color: #6366f1;
+}
+
+.filtro button.activo {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  border-color: transparent;
+}
+
+/* ---------- 7. Lista de gastos ---------- */
+
+.gasto-lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.gasto-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: white;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.06);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.gasto-item:hover {
+  transform: translateX(4px);
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.12);
+}
+
+.gasto-desc {
+  flex: 1;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.gasto-cat {
+  background: #eef2ff;
+  color: #4f46e5;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.gasto-fecha {
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+.gasto-importe {
+  font-weight: 700;
+  color: #1e1b4b;
+}
+
+.gasto-item button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1rem;
+  opacity: 0.5;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.gasto-item button:hover {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+.vacio {
+  text-align: center;
+  color: #94a3b8;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+}
+
+/* ---------- 8. Panel de análisis (dashboard) ---------- */
+
+.analisis {
+  background: white;
+  padding: 1.25rem 1.5rem;
+  border-radius: 16px;
+  margin-top: 1.5rem;
+  box-shadow: 0 4px 20px rgba(79, 70, 229, 0.08);
+}
+
+.analisis-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.analisis-cabecera h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #1e1b4b;
+}
+
+.analisis-cabecera button {
+  padding: 0.5rem 1.1rem;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.analisis-cabecera button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.analisis-error {
+  color: #dc2626;
+  background: #fef2f2;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+}
+
+/* Cifras clave */
+
+.analisis-cifras {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.cifra {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #f8fafc;
+  padding: 1rem;
+  border-radius: 12px;
+}
+
+.cifra-valor {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1e1b4b;
+  text-transform: capitalize;
+}
+
+.cifra-etiqueta {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+/* Cuadrícula de tarjetas de gráficas */
+
+.analisis-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.tarjeta-grafica {
+  background: #f8fafc;
+  border: 1px solid #eef2f7;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.tarjeta-grafica h3 {
+  font-size: 0.95rem;
+  color: #1e1b4b;
+  margin: 0 0 0.75rem;
+}
+
+.titulo-seccion {
+  font-size: 0.95rem;
+  color: #1e1b4b;
+  margin: 1.25rem 0 0.5rem;
+}
+
+.analisis-top {
+  margin: 0 0 1rem;
+  padding-left: 1.25rem;
+}
+
+.analisis-lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.analisis-lista li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.3rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+/* Barras de porcentaje (CSS) */
+
+.analisis-barras {
+  margin-top: 0.5rem;
+}
+
+.analisis-barra-etiqueta {
+  width: 90px;
+  text-align: right;
+  font-size: 0.85rem;
+  text-transform: capitalize;
+  color: #64748b;
+}
+
+.analisis-barra-fondo {
+  flex: 1;
+  background: #f1f5f9;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.analisis-barra {
+  background: linear-gradient(90deg, #6366f1, #8b5cf6);
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.35rem 0.6rem;
+  white-space: nowrap;
+  border-radius: 8px;
+  transition: width 0.4s ease;
+  min-width: fit-content;
+}
+
+/* ---------- 9. Responsive ---------- */
+
+@media (max-width: 720px) {
+  .layout-superior {
+    grid-template-columns: 1fr;
+  }
+
+  .analisis-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.cifra-prediccion {
+  background: #fefce8;
+  border: 1.5px solid #fde047;
+}
+
+/* ---------- Autenticación ---------- */
+
+.auth {
+  max-width: 400px;
+  margin: 4rem auto;
+  padding: 1rem;
+}
+
+.auth h1 {
+  text-align: center;
+  color: #1e1b4b;
+  margin-bottom: 1.5rem;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(79, 70, 229, 0.08);
+}
+
+.auth-form h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+  color: #1e1b4b;
+  text-align: center;
+}
+
+.auth-form input {
+  padding: 0.65rem 0.85rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  background: #f8fafc;
+}
+
+.auth-form input:focus {
+  outline: none;
+  border-color: #6366f1;
+  background: white;
+}
+
+.auth-form button[type='submit'] {
+  padding: 0.7rem;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.auth-form button[type='submit']:disabled {
+  opacity: 0.6;
+}
+
+.auth-error {
+  margin: 0;
+  color: #dc2626;
+  background: #fef2f2;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+
+.auth-cambio {
+  margin: 0.25rem 0 0;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.auth-enlace {
+  border: none;
+  background: none;
+  color: #6366f1;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.85rem;
+  padding: 0;
+}
+
+/* ---------- Cabecera con cerrar sesión ---------- */
+
+.app-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.75rem;
+}
+
+.app-cabecera h1 {
+  margin: 0;
+  text-align: left;
+}
+
+.btn-salir {
+  padding: 0.4rem 0.95rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 999px;
+  background: white;
+  color: #64748b;
+  font-family: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.btn-salir:hover {
+  border-color: #dc2626;
+  color: #dc2626;
+}
+/* ---------- Saldo en el resumen ---------- */
+
+.resumen-saldo {
+  margin-bottom: 1rem;
+}
+
+.saldo-linea {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.3rem 0;
+  font-size: 0.95rem;
+}
+
+.saldo-disponible {
+  border-top: 2px solid rgba(255, 255, 255, 0.3);
+  margin-top: 0.35rem;
+  padding-top: 0.6rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.saldo-disponible.negativo strong {
+  color: #fecaca;
+}
