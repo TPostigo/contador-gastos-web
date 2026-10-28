@@ -116,6 +116,22 @@
   background: var(--color-primario-suave);
 }
 
+/* Campos del formulario: ocupan el ancho de su celda y nunca se salen (móvil) */
+.gasto-form > *,
+.layout-superior > *,
+.bloque,
+.anadir-form > * {
+  min-width: 0;
+}
+
+.gasto-form input,
+.gasto-form select,
+.anadir-form input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
 /* ---------- 4. Resumen ---------- */
 
 .resumen {
