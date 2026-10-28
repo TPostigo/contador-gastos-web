@@ -40,7 +40,7 @@ function AuthForm({ onAutenticado }: AuthFormProps) {
 
   return (
     <div className="auth">
-      <h1>💰 Contador de Gastos</h1>
+      <h1>Contador de Gastos</h1>
 
       <form onSubmit={manejarSubmit} className="auth-form">
         <h2>{modo === 'login' ? 'Iniciar sesión' : 'Crear cuenta'}</h2>
@@ -71,7 +71,7 @@ function AuthForm({ onAutenticado }: AuthFormProps) {
           />
         )}
 
-        {error && <p className="auth-error">⚠️ {error}</p>}
+        {error && <p className="auth-error">{error}</p>}
 
         <button type="submit" disabled={cargando}>
           {cargando

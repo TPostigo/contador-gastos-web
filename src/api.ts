@@ -27,15 +27,21 @@ async function peticion<T>(
 ): Promise<T> {
   const token = leerToken();
 
-  const respuesta = await fetch(`${API_URL}${ruta}`, {
-    ...opciones,
-    headers: {
-      'Content-Type': 'application/json',
-      // Solo añadimos Authorization si tenemos token
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...opciones.headers,
-    },
-  });
+  let respuesta: Response;
+  try {
+    respuesta = await fetch(`${API_URL}${ruta}`, {
+      ...opciones,
+      headers: {
+        'Content-Type': 'application/json',
+        // Solo añadimos Authorization si tenemos token
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...opciones.headers,
+      },
+    });
+  } catch {
+    // fetch solo lanza error cuando no hay conexión con el servidor
+    throw new Error('No se pudo conectar con el servidor. Inténtalo de nuevo en un momento.');
+  }
 
   if (!respuesta.ok) {
     // Intentamos leer el "detail" que manda FastAPI en los errores
@@ -55,6 +61,17 @@ async function peticion<T>(
   }
 
   return respuesta.json() as Promise<T>;
+}
+
+// ---------- Asistente de IA ----------
+
+// Envía una pregunta al asistente y devuelve su respuesta en texto
+export async function preguntarAsistente(pregunta: string): Promise<string> {
+  const datos = await peticion<{ respuesta: string }>('/asistente', {
+    method: 'POST',
+    body: JSON.stringify({ pregunta }),
+  });
+  return datos.respuesta;
 }
 
 // ---------- Autenticación ----------
@@ -86,6 +103,14 @@ export interface DatosUsuario {
 
 export async function misDatos(): Promise<DatosUsuario> {
   return peticion<DatosUsuario>('/yo');
+}
+
+// Fija el saldo inicial del usuario. La API recibe el total final, no una suma.
+export async function cambiarSaldo(saldoInicial: number): Promise<void> {
+  await peticion<{ saldo_inicial: number }>('/saldo', {
+    method: 'PUT',
+    body: JSON.stringify({ saldo_inicial: saldoInicial }),
+  });
 }
 
 // ---------- Gastos (los usaremos en la fase 4B) ----------

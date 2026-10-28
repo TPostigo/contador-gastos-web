@@ -1,11 +1,84 @@
+/* ============================================
+   Tokens de diseño: colores, tipografía y forma de la aplicación.
+   ============================================ */
+:root {
+  /* Colores de marca */
+  --color-primario: #4c1d95;       /* violeta oscuro, más serio */
+  --color-primario-hover: #3b1578;
+  --color-acento: #8b5cf6;          /* violeta medio, para detalles */
+  --color-primario-suave: #f1ecff;
+
+  /* Secundario: azul petróleo para acciones de apoyo */
+  --color-secundario: #0f5e63;
+  --color-secundario-suave: #e6f2f2;
+
+  /* Tipografía */
+  --fuente: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Neutros */
+  --color-fondo: #f5f4fa;
+  --color-superficie: #ffffff;
+  --color-superficie-suave: #f8fafc;
+  --color-borde: #e2e8f0;
+  --color-borde-fuerte: #cbd5e1;
+  --color-primario-suave-borde: #c4b5fd;
+  --color-texto: #0f172a;
+  --color-texto-suave: #475569;
+  --color-texto-discreto: #94a3b8;
+
+  /* Categorías: color de cada una en filtros, etiquetas y bordes */
+  --cat-comida: #fcd34d;
+  --cat-comida-fondo: #fef3c7;
+  --cat-comida-texto: #92400e;
+  --cat-casa: #5eead4;
+  --cat-casa-fondo: #ccfbf1;
+  --cat-casa-texto: #0f5e63;
+  --cat-ocio: #f9a8d4;
+  --cat-ocio-fondo: #fce7f3;
+  --cat-ocio-texto: #9d174d;
+  --cat-transporte: #93c5fd;
+  --cat-transporte-fondo: #dbeafe;
+  --cat-transporte-texto: #1e40af;
+  --cat-otros: #c4b5fd;
+  --cat-otros-fondo: #ede9fe;
+  --cat-otros-texto: #5b21b6;
+
+  /* Barra de cinco tramos, una por categoría (cabecera y pantalla de acceso) */
+  --barra-categorias: linear-gradient(
+    90deg,
+    var(--cat-comida) 0 20%,
+    var(--cat-casa) 20% 40%,
+    var(--cat-ocio) 40% 60%,
+    var(--cat-transporte) 60% 80%,
+    var(--cat-otros) 80% 100%
+  );
+
+  /* Acento cálido: franjas de análisis y avisos suaves */
+  --color-acento-calido: #d97706;
+
+  /* Estados */
+  --color-exito: #047857;
+  --color-exito-fondo: #ecfdf5;
+  --color-error: #b91c1c;
+  --color-error-fondo: #fef2f2;
+  --color-advertencia: #ca8a04;
+  --color-advertencia-fondo: #fefce8;
+
+  /* Forma */
+  --radio: 4px;
+  --radio-lg: 6px;
+  --sombra: 0 1px 2px rgba(15, 23, 42, 0.08);
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  background: linear-gradient(160deg, #eef2ff 0%, #fdf4ff 50%, #eff6ff 100%);
+  font-family: var(--fuente);
+  -webkit-font-smoothing: antialiased;
+  background: var(--color-fondo);
   min-height: 100vh;
-  color: #1e293b;
+  color: var(--color-texto);
 }

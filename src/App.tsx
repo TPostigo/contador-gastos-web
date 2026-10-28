@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import type { Gasto, Filtro } from './types';
 import GastoForm from './GastoForm';
+import AnadirDinero from './AnadirDinero';
 import GastoLista from './GastoLista';
 import Resumen from './Resumen';
 import FiltroCategoria from './FiltroCategoria';
 import AnalisisPanel from './Analisis';
+import AsistenteChat from './AsistenteChat';
 import AuthForm from './AuthForm';
 import { exportarCSV } from './exportarCSV';
 import {
@@ -15,8 +17,10 @@ import {
   actualizarGasto as apiActualizarGasto,
   borrarGasto as apiBorrarGasto,
   misDatos,
+  cambiarSaldo as apiCambiarSaldo,
   type DatosUsuario,
 } from './api';
+import logo from './assets/logo.png';
 import './App.css';
 
 function App() {
@@ -29,6 +33,8 @@ function App() {
   const [cargandoGastos, setCargandoGastos] = useState(false);
   const [filtro, setFiltro] = useState<Filtro>('todas');
   const [gastoEnEdicion, setGastoEnEdicion] = useState<Gasto | null>(null);
+  const [error, setError] = useState<string | null>(null); // avisos dentro de la página
+  const [orden, setOrden] = useState<'fecha' | 'importe'>('fecha');
 
   // Al entrar (o cambiar de sesión), pedimos gastos y datos del usuario
   useEffect(() => {
@@ -57,7 +63,7 @@ function App() {
       await crearGasto(gasto);       // 1º la base de datos
       setGastos([...gastos, gasto]); // 2º la copia local
     } catch (err) {
-      alert(err instanceof Error ? err.message : 'Error al guardar');
+      setError(err instanceof Error ? err.message : 'Error al guardar');
     }
   };
 
@@ -69,7 +75,7 @@ function App() {
         setGastoEnEdicion(null);
       }
     } catch (err) {
-      alert(err instanceof Error ? err.message : 'Error al borrar');
+      setError(err instanceof Error ? err.message : 'Error al borrar');
     }
   };
 
@@ -81,8 +87,16 @@ function App() {
       );
       setGastoEnEdicion(null);
     } catch (err) {
-      alert(err instanceof Error ? err.message : 'Error al actualizar');
+      setError(err instanceof Error ? err.message : 'Error al actualizar');
     }
+  };
+
+  // Suma dinero al saldo inicial: primero la API, después la copia local
+  const anadirDinero = async (cantidad: number) => {
+    if (!usuario) return;
+    const nuevoSaldo = usuario.saldo_inicial + cantidad;
+    await apiCambiarSaldo(nuevoSaldo);
+    setUsuario({ ...usuario, saldo_inicial: nuevoSaldo });
   };
 
   const cerrarSesion = () => {
@@ -94,52 +108,121 @@ function App() {
   const gastosFiltrados =
     filtro === 'todas' ? gastos : gastos.filter((g) => g.categoria === filtro);
 
+  // Orden: fecha más reciente primero, o importe más alto primero
+  const gastosOrdenados = [...gastosFiltrados].sort((a, b) =>
+    orden === 'fecha'
+      ? b.fecha.localeCompare(a.fecha)
+      : b.importe - a.importe
+  );
+
   // Sin sesión → solo se ve la pantalla de entrada
   if (!autenticado) {
     return <AuthForm onAutenticado={() => setAutenticado(true)} />;
   }
 
   return (
-    <div className="app">
-      <div className="app-cabecera">
-        <h1>💰 Contador de Gastos</h1>
-        <button className="btn-salir" onClick={cerrarSesion}>
-          Cerrar sesión
-        </button>
-      </div>
-
-      <div className="layout-superior">
-        <GastoForm
-          onAgregar={agregarGasto}
-          onActualizar={actualizarGasto}
-          gastoEnEdicion={gastoEnEdicion}
-          onCancelarEdicion={() => setGastoEnEdicion(null)}
-        />
-
-        <div className="columna-derecha">
-          <Resumen gastos={gastos} saldoInicial={usuario?.saldo_inicial ?? null} />
+    <>
+      <header className="app-header">
+        <div className="app-header-interior">
+          <div className="app-marca-grupo">
+            <img src={logo} alt="" className="app-logo" />
+            <div className="app-identidad">
+              <span className="app-marca">Contador de Gastos</span>
+              {usuario && <span className="app-usuario">{usuario.email}</span>}
+            </div>
+          </div>
+          <button className="btn-salir" onClick={cerrarSesion}>
+            <span aria-hidden="true">⎋</span> Cerrar sesión
+          </button>
         </div>
-      </div>
+      </header>
 
-      <div className="acciones">
-        <button className="btn-exportar" onClick={() => exportarCSV(gastos)}>
-          📥 Exportar CSV
-        </button>
-      </div>
+      <main className="app">
+        {error && (
+          <div className="aviso-app" role="alert">
+            <span>{error}</span>
+            <button type="button" onClick={() => setError(null)} aria-label="Cerrar aviso">
+              ×
+            </button>
+          </div>
+        )}
 
-      <FiltroCategoria filtro={filtro} onCambiar={setFiltro} />
-      {cargandoGastos ? (
-        <p className="vacio">Cargando tus gastos…</p>
-      ) : (
-        <GastoLista
-          gastos={gastosFiltrados}
-          onBorrar={borrarGasto}
-          onEditar={setGastoEnEdicion}
+        {/* ---- Resumen y alta de gastos, en una misma caja ---- */}
+        <section className="seccion panel-resumen">
+          <div className="layout-superior">
+            <div className="bloque">
+              <h3 className="bloque-titulo">Nuevo gasto</h3>
+              <GastoForm
+                onAgregar={agregarGasto}
+                onActualizar={actualizarGasto}
+                gastoEnEdicion={gastoEnEdicion}
+                onCancelarEdicion={() => setGastoEnEdicion(null)}
+              />
+              <AnadirDinero onAnadirDinero={anadirDinero} />
+            </div>
+
+            <div className="columna-derecha">
+              <Resumen
+                gastos={gastos}
+                saldoInicial={usuario?.saldo_inicial ?? null}
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* ---- Movimientos: lista con altura fija y desplazamiento ---- */}
+        <section className="seccion">
+          <div className="seccion-cabecera">
+            <h2 className="seccion-titulo">Movimientos</h2>
+            <span className="contador-movimientos">
+              {gastosFiltrados.length} {gastosFiltrados.length === 1 ? 'movimiento' : 'movimientos'}
+            </span>
+            <FiltroCategoria filtro={filtro} onCambiar={setFiltro} />
+            <div className="orden" role="group" aria-label="Ordenar movimientos">
+              <button
+                type="button"
+                aria-pressed={orden === 'fecha'}
+                className={orden === 'fecha' ? 'activo' : ''}
+                onClick={() => setOrden('fecha')}
+              >
+                Fecha
+              </button>
+              <button
+                type="button"
+                aria-pressed={orden === 'importe'}
+                className={orden === 'importe' ? 'activo' : ''}
+                onClick={() => setOrden('importe')}
+              >
+                Importe
+              </button>
+            </div>
+          </div>
+          <div className="lista-scroll">
+            {cargandoGastos ? (
+              <p className="vacio">Cargando tus gastos…</p>
+            ) : (
+              <GastoLista
+                gastos={gastosOrdenados}
+                onBorrar={borrarGasto}
+                onEditar={setGastoEnEdicion}
+                filtroActivo={filtro !== 'todas'}
+              />
+            )}
+          </div>
+        </section>
+
+        <AsistenteChat />
+
+        <AnalisisPanel
+          gastos={gastos}
+          acciones={
+            <button className="btn-exportar" onClick={() => exportarCSV(gastos)}>
+              📥 Exportar CSV
+            </button>
+          }
         />
-      )}
-
-      <AnalisisPanel gastos={gastos} />
-    </div>
+      </main>
+    </>
   );
 }
 

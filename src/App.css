@@ -1,9 +1,10 @@
 /* ============================================
    CONTADOR DE GASTOS — Estilos
+   Colores, radios y sombras vienen de los tokens de index.css.
    1. Contenedor y título
    2. Layout superior (2 columnas)
    3. Formulario
-   4. Resumen (tarjeta morada + gráfico)
+   4. Resumen (tarjeta de marca + gráfico)
    5. Acciones (exportar)
    6. Filtro
    7. Lista de gastos
@@ -23,9 +24,10 @@
 .app h1 {
   text-align: center;
   font-size: 1.9rem;
+  font-weight: 700;
   margin: 0 0 1.75rem;
-  color: #1e1b4b;
-  letter-spacing: -0.5px;
+  color: var(--color-texto);
+  letter-spacing: -0.02em;
 }
 
 /* ---------- 2. Layout superior ---------- */
@@ -50,11 +52,12 @@
   grid-template-columns: 1fr 1fr;
   gap: 0.75rem;
   align-content: center;
-  background: white;
+  background: var(--color-superficie);
   padding: 1.25rem;
-  border-radius: 16px;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-lg);
   margin-bottom: 0;
-  box-shadow: 0 4px 20px rgba(79, 70, 229, 0.08);
+  box-shadow: var(--sombra);
 }
 
 .gasto-form input[type='text'] {
@@ -64,75 +67,74 @@
 .gasto-form input,
 .gasto-form select {
   padding: 0.65rem 0.85rem;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 10px;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
   font-size: 0.95rem;
   font-family: inherit;
-  background: #f8fafc;
+  color: var(--color-texto);
+  background: var(--color-superficie-suave);
   transition: border-color 0.2s, background 0.2s;
 }
 
 .gasto-form input:focus,
 .gasto-form select:focus {
   outline: none;
-  border-color: #6366f1;
-  background: white;
+  border-color: var(--color-primario);
+  background: var(--color-superficie);
+  box-shadow: 0 0 0 3px var(--color-primario-suave);
 }
 
 .gasto-form button {
   grid-column: 1 / -1;
   padding: 0.7rem;
   border: none;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-  color: white;
+  border-radius: var(--radio);
+  background: var(--color-primario);
+  color: #ffffff;
   font-size: 0.95rem;
   font-weight: 600;
   font-family: inherit;
   cursor: pointer;
-  transition: transform 0.15s, box-shadow 0.15s;
+  transition: background 0.15s;
 }
 
 .gasto-form button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
+  background: var(--color-primario-hover);
 }
 
 .gasto-form button:active {
-  transform: translateY(0);
+  transform: translateY(1px);
 }
 
 .gasto-form .btn-cancelar {
-  background: white;
-  color: #6366f1;
-  border: 1.5px solid #6366f1;
+  background: var(--color-superficie);
+  color: var(--color-primario);
+  border: 1px solid var(--color-primario);
 }
 
 .gasto-form .btn-cancelar:hover {
-  background: #eef2ff;
-  box-shadow: none;
+  background: var(--color-primario-suave);
 }
 
 /* ---------- 4. Resumen ---------- */
 
 .resumen {
-  background: linear-gradient(135deg, #4f46e5, #7c3aed);
-  color: white;
-  padding: 1.25rem 1.5rem;
-  border-radius: 16px;
+  background: var(--color-primario);
+  color: #ffffff;
+  padding: 1.75rem;
+  border-radius: var(--radio-lg);
   margin-bottom: 0;
-  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.25);
+  box-shadow: 0 10px 30px rgba(76, 29, 149, 0.25);
 }
 
 .resumen h2 {
-  margin: 0 0 1rem;
-  font-size: 1.6rem;
-  font-weight: 700;
-  text-align: center;
-  text-decoration: underline;
-  text-decoration-color: rgba(255, 255, 255, 0.5);
-  text-decoration-thickness: 2px;
-  text-underline-offset: 8px;
+  margin: 0 0 1.25rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.85;
 }
 
 .resumen-grafico {
@@ -142,7 +144,7 @@
 .resumen-vacio {
   margin: 0.5rem 0 0;
   font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .grafico-fila {
@@ -163,17 +165,17 @@
 .grafico-barra-fondo {
   flex: 1;
   background: rgba(255, 255, 255, 0.15);
-  border-radius: 8px;
+  border-radius: 6px;
   overflow: hidden;
 }
 
 .grafico-barra {
-  color: #1e1b4b;
+  color: var(--color-texto);
   font-size: 0.8rem;
   font-weight: 700;
   padding: 0.4rem 0.65rem;
   white-space: nowrap;
-  border-radius: 8px;
+  border-radius: 6px;
   transition: width 0.4s ease;
 }
 
@@ -185,19 +187,19 @@
 
 .btn-exportar {
   padding: 0.4rem 0.95rem;
-  border: 1.5px solid #10b981;
-  border-radius: 999px;
-  background: white;
-  color: #059669;
+  border: 1px solid var(--color-secundario);
+  border-radius: var(--radio);
+  background: var(--color-superficie);
+  color: var(--color-secundario);
   font-family: inherit;
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background 0.2s;
 }
 
 .btn-exportar:hover {
-  background: #ecfdf5;
+  background: var(--color-secundario-suave);
 }
 
 /* ---------- 6. Filtro ---------- */
@@ -210,27 +212,28 @@
 }
 
 .filtro button {
-  padding: 0.4rem 0.95rem;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 999px;
-  background: white;
+  padding: 0.45rem 1rem;
+  border: 1px solid var(--color-borde-fuerte);
+  border-radius: var(--radio);
+  background: var(--color-superficie);
   font-family: inherit;
   font-size: 0.85rem;
-  color: #475569;
+  font-weight: 500;
+  color: var(--color-texto-suave);
   cursor: pointer;
   text-transform: capitalize;
-  transition: all 0.2s;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
 }
 
 .filtro button:hover {
-  border-color: #6366f1;
-  color: #6366f1;
+  border-color: var(--color-primario);
+  color: var(--color-primario);
 }
 
 .filtro button.activo {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-  color: white;
-  border-color: transparent;
+  background: var(--color-primario);
+  color: #ffffff;
+  border-color: var(--color-primario);
 }
 
 /* ---------- 7. Lista de gastos ---------- */
@@ -245,30 +248,29 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background: white;
-  padding: 0.85rem 1rem;
-  border-radius: 12px;
-  margin-bottom: 0.5rem;
-  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.06);
-  transition: transform 0.15s, box-shadow 0.15s;
+  background: var(--color-superficie);
+  padding: 0.6rem 0.85rem;
+  border: 1px solid var(--color-borde-fuerte);
+  border-radius: var(--radio);
+  margin-bottom: 0.4rem;
+  transition: border-color 0.15s;
 }
 
 .gasto-item:hover {
-  transform: translateX(4px);
-  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.12);
+  border-color: var(--color-primario-suave-borde);
 }
 
 .gasto-desc {
   flex: 1;
   font-weight: 600;
-  color: #1e293b;
+  color: var(--color-texto);
 }
 
 .gasto-cat {
-  background: #eef2ff;
-  color: #4f46e5;
+  background: var(--color-primario-suave);
+  color: var(--color-primario);
   padding: 0.2rem 0.6rem;
-  border-radius: 999px;
+  border-radius: var(--radio);
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: capitalize;
@@ -276,12 +278,14 @@
 
 .gasto-fecha {
   font-size: 0.8rem;
-  color: #94a3b8;
+  color: var(--color-texto-discreto);
 }
 
 .gasto-importe {
+  font-size: 1.05rem;
   font-weight: 700;
-  color: #1e1b4b;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-texto);
 }
 
 .gasto-item button {
@@ -290,30 +294,31 @@
   cursor: pointer;
   font-size: 1rem;
   opacity: 0.5;
-  transition: opacity 0.2s, transform 0.2s;
+  transition: opacity 0.2s;
 }
 
 .gasto-item button:hover {
   opacity: 1;
-  transform: scale(1.15);
 }
 
 .vacio {
   text-align: center;
-  color: #94a3b8;
-  background: white;
+  color: var(--color-texto-discreto);
+  background: var(--color-superficie);
+  border: 1px dashed var(--color-borde);
   padding: 2rem;
-  border-radius: 12px;
+  border-radius: var(--radio);
 }
 
 /* ---------- 8. Panel de análisis (dashboard) ---------- */
 
 .analisis {
-  background: white;
-  padding: 1.25rem 1.5rem;
-  border-radius: 16px;
-  margin-top: 1.5rem;
-  box-shadow: 0 4px 20px rgba(79, 70, 229, 0.08);
+  background: var(--color-superficie);
+  padding: 1.5rem 1.75rem;
+  border: 1px solid var(--color-borde-fuerte);
+  border-radius: var(--radio-lg);
+  margin-top: 1.75rem;
+  box-shadow: var(--sombra);
 }
 
 .analisis-cabecera {
@@ -325,16 +330,17 @@
 
 .analisis-cabecera h2 {
   margin: 0;
-  font-size: 1.1rem;
-  color: #1e1b4b;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-primario);
 }
 
 .analisis-cabecera button {
   padding: 0.5rem 1.1rem;
   border: none;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #10b981, #059669);
-  color: white;
+  border-radius: var(--radio);
+  background: var(--color-secundario);
+  color: #ffffff;
   font-family: inherit;
   font-weight: 600;
   cursor: pointer;
@@ -346,10 +352,10 @@
 }
 
 .analisis-error {
-  color: #dc2626;
-  background: #fef2f2;
+  color: var(--color-error);
+  background: var(--color-error-fondo);
   padding: 0.6rem 1rem;
-  border-radius: 10px;
+  border-radius: var(--radio);
 }
 
 /* Cifras clave */
@@ -365,26 +371,30 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #f8fafc;
-  padding: 1rem;
-  border-radius: 12px;
+  background: var(--color-superficie);
+  padding: 1.1rem 1rem;
+  border: 1px solid var(--color-borde-fuerte);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
 }
 
 .cifra-valor {
-  font-size: 1.3rem;
+  font-size: 1.6rem;
   font-weight: 700;
-  color: #1e1b4b;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-texto);
   text-transform: capitalize;
 }
 
 .cifra-etiqueta {
   font-size: 0.8rem;
-  color: #64748b;
+  color: var(--color-texto-suave);
 }
 
 .cifra-prediccion {
-  background: #fefce8;
-  border: 1.5px solid #fde047;
+  background: var(--color-advertencia-fondo);
+  border: 1px solid var(--color-advertencia);
 }
 
 /* Cuadrícula de tarjetas de gráficas */
@@ -397,21 +407,23 @@
 }
 
 .tarjeta-grafica {
-  background: #f8fafc;
-  border: 1px solid #eef2f7;
-  border-radius: 12px;
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde-fuerte);
+  border-radius: var(--radio);
   padding: 1rem;
 }
 
 .tarjeta-grafica h3 {
   font-size: 0.95rem;
-  color: #1e1b4b;
+  font-weight: 600;
+  color: var(--color-texto);
   margin: 0 0 0.75rem;
 }
 
 .titulo-seccion {
   font-size: 0.95rem;
-  color: #1e1b4b;
+  font-weight: 600;
+  color: var(--color-texto);
   margin: 1.25rem 0 0.5rem;
 }
 
@@ -430,7 +442,7 @@
   display: flex;
   justify-content: space-between;
   padding: 0.3rem 0;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--color-borde);
 }
 
 /* Barras de porcentaje (CSS) */
@@ -444,26 +456,518 @@
   text-align: right;
   font-size: 0.85rem;
   text-transform: capitalize;
-  color: #64748b;
+  color: var(--color-texto-suave);
 }
 
 .analisis-barra-fondo {
   flex: 1;
-  background: #f1f5f9;
-  border-radius: 8px;
+  background: var(--color-borde);
+  border-radius: 6px;
   overflow: hidden;
 }
 
 .analisis-barra {
-  background: linear-gradient(90deg, #6366f1, #8b5cf6);
-  color: white;
+  background: var(--cat-color, var(--color-primario));
+  color: var(--cat-texto, #ffffff);
   font-size: 0.8rem;
   font-weight: 600;
   padding: 0.35rem 0.6rem;
   white-space: nowrap;
-  border-radius: 8px;
+  border-radius: 6px;
   transition: width 0.4s ease;
   min-width: fit-content;
+}
+
+/* ---------- Reorganización: resumen, movimientos y análisis ---------- */
+
+/* Resumen y alta de gastos en una sola caja */
+.panel-resumen {
+  margin-top: 0;
+}
+
+.panel-resumen .layout-superior {
+  margin-bottom: 0;
+}
+
+/* El formulario ya no lleva caja propia dentro de la caja principal */
+.panel-resumen .gasto-form {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+.bloque-titulo {
+  margin: 0 0 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-primario);
+}
+
+/* Movimientos: cabecera con filtro y lista con altura fija */
+.seccion-cabecera {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.seccion-cabecera .seccion-titulo {
+  margin: 0;
+  padding-bottom: 0.6rem;
+}
+
+/* Interruptor de orden: fecha o importe */
+.orden {
+  display: inline-flex;
+  align-self: flex-start;
+  border: 1px solid var(--color-borde-fuerte);
+  border-radius: var(--radio);
+  overflow: hidden;
+}
+
+.orden button {
+  padding: 0.3rem 0.7rem;
+  border: none;
+  background: var(--color-superficie);
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-texto-suave);
+  cursor: pointer;
+}
+
+.orden button + button {
+  border-left: 1px solid var(--color-borde-fuerte);
+}
+
+.orden button.activo {
+  background: var(--color-primario);
+  color: #ffffff;
+}
+
+.lista-scroll {
+  max-height: 260px;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+/* Botón de exportar dentro de la caja de análisis */
+.analisis-acciones {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-borde);
+}
+
+/* Asistente: más visible que el resto de secciones */
+.seccion-asistente {
+  border-top: 3px solid var(--color-primario);
+}
+
+.badge-ia {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radio);
+  background: var(--color-secundario);
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  vertical-align: middle;
+}
+
+.seccion-asistente .chat {
+  background: var(--color-fondo);
+  border: 1px solid var(--color-borde);
+  padding: 1rem;
+  min-height: 160px;
+  max-height: 420px;
+}
+
+.seccion-asistente .chat-usuario {
+  background: var(--color-primario);
+  border-color: var(--color-primario);
+  color: #ffffff;
+}
+
+.seccion-asistente .chat-asistente {
+  border-left: 3px solid var(--color-acento);
+}
+
+/* ---------- Color: categorías, cabecera y secciones ---------- */
+
+/* Barra de cinco tramos en la cabecera, uno por categoría */
+.app-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--barra-categorias);
+}
+
+/* Cada categoría lleva su color en la clase del gasto */
+.cat-comida { --cat-color: var(--cat-comida); --cat-fondo: var(--cat-comida-fondo); --cat-texto: var(--cat-comida-texto); }
+.cat-casa { --cat-color: var(--cat-casa); --cat-fondo: var(--cat-casa-fondo); --cat-texto: var(--cat-casa-texto); }
+.cat-ocio { --cat-color: var(--cat-ocio); --cat-fondo: var(--cat-ocio-fondo); --cat-texto: var(--cat-ocio-texto); }
+.cat-transporte { --cat-color: var(--cat-transporte); --cat-fondo: var(--cat-transporte-fondo); --cat-texto: var(--cat-transporte-texto); }
+.cat-otros { --cat-color: var(--cat-otros); --cat-fondo: var(--cat-otros-fondo); --cat-texto: var(--cat-otros-texto); }
+
+.gasto-item {
+  border-left: 3px solid var(--cat-color, var(--color-borde-fuerte));
+}
+
+.gasto-item .gasto-cat {
+  background: var(--cat-fondo, var(--color-primario-suave));
+  color: var(--cat-texto, var(--color-primario));
+}
+
+/* Filtros: un punto de color por categoría (el orden de los botones es fijo) */
+.filtro button::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 0.45rem;
+  border-radius: 2px;
+  vertical-align: middle;
+  background: var(--chip-color, transparent);
+}
+
+.filtro button:first-child::before { display: none; }
+.filtro button:nth-child(2) { --chip-color: var(--cat-comida); }
+.filtro button:nth-child(3) { --chip-color: var(--cat-casa); }
+.filtro button:nth-child(4) { --chip-color: var(--cat-ocio); }
+.filtro button:nth-child(5) { --chip-color: var(--cat-transporte); }
+.filtro button:nth-child(6) { --chip-color: var(--cat-otros); }
+
+/* Cada sección tiene su franja de color arriba */
+.app > .panel-resumen {
+  border-top: 3px solid var(--color-primario);
+}
+
+.app > .seccion:not(.panel-resumen):not(.seccion-asistente) {
+  border-top: 3px solid var(--color-secundario);
+}
+
+.app > .analisis {
+  border-top: 3px solid var(--color-acento-calido);
+}
+
+.seccion-asistente .chat-asistente {
+  background: var(--color-superficie);
+}
+
+/* ---------- Análisis: cifras, títulos y barras con color ---------- */
+
+/* Cada cifra clave con su franja de color arriba */
+.analisis-cifras .cifra:nth-child(1) { border-top: 3px solid var(--color-primario); }
+.analisis-cifras .cifra:nth-child(2) { border-top: 3px solid var(--color-secundario); }
+.analisis-cifras .cifra:nth-child(3) { border-top: 3px solid var(--cat-comida); }
+.analisis-cifras .cifra:nth-child(4) { border-top: 3px solid var(--cat-ocio); }
+.analisis-cifras .cifra:nth-child(5) { border-top: 3px solid var(--cat-transporte); }
+
+/* Títulos de las gráficas en petróleo, con línea fina debajo */
+.analisis .tarjeta-grafica h3,
+.analisis .titulo-seccion {
+  color: var(--color-secundario);
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-borde);
+}
+
+.analisis .tarjeta-grafica {
+  background: var(--color-superficie);
+}
+
+/* ---------- Sesión, aviso de saldo y añadir dinero ---------- */
+
+/* Logo, título y usuario alineados al centro vertical de la cabecera */
+.app-marca-grupo {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.app-logo {
+  display: block;
+  height: 44px;
+  width: auto;
+}
+
+@media (max-width: 600px) {
+  .app-logo {
+    height: 36px;
+  }
+}
+
+/* Título y usuario apilados */
+.app-identidad {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.app-usuario {
+  font-size: 0.85rem;
+  color: var(--color-texto-suave);
+}
+
+.aviso-saldo {
+  margin: 0.9rem 0 0;
+  padding: 0.55rem 0.75rem;
+  background: #ffffff;
+  color: var(--color-error);
+  border-left: 3px solid var(--color-error);
+  border-radius: var(--radio);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Añadir dinero: debajo del formulario de gasto */
+.anadir {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-borde);
+}
+
+.anadir-form {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.anadir-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--color-borde-fuerte);
+  border-radius: var(--radio);
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--color-texto);
+  background: var(--color-superficie-suave);
+}
+
+.anadir-form input:focus {
+  outline: none;
+  border-color: var(--color-primario);
+  background: var(--color-superficie);
+  box-shadow: 0 0 0 3px var(--color-primario-suave);
+}
+
+.anadir-form button {
+  padding: 0 1.25rem;
+  border: none;
+  border-radius: var(--radio);
+  background: var(--color-secundario);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.anadir-form button:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.anadir-form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Ejemplos de preguntas en el chat vacío */
+.chat-vacio p {
+  margin: 0 0 0.6rem;
+}
+
+.chat-ejemplos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chat-ejemplo {
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--color-borde-fuerte);
+  border-radius: var(--radio);
+  background: var(--color-superficie);
+  color: var(--color-primario);
+  font-family: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.chat-ejemplo:hover:not(:disabled) {
+  background: var(--color-primario-suave);
+  border-color: var(--color-primario);
+}
+
+.chat-ejemplo:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---------- Avisos, foco con teclado y contador ---------- */
+
+/* Aviso de error dentro de la página */
+.aviso-app {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 1rem;
+  padding: 0.55rem 0.75rem;
+  background: #ffffff;
+  color: var(--color-error);
+  border-left: 3px solid var(--color-error);
+  border-radius: var(--radio);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.aviso-app button {
+  border: none;
+  background: none;
+  color: inherit;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.error-campo {
+  width: 100%;
+  margin: 0.6rem 0 0;
+  font-size: 0.85rem;
+  color: var(--color-error);
+}
+
+/* Foco visible solo al navegar con el teclado */
+:focus-visible {
+  outline: 2px solid var(--color-acento);
+  outline-offset: 2px;
+}
+
+.contador-movimientos {
+  font-size: 0.85rem;
+  color: var(--color-texto-discreto);
+}
+
+/* ---------- Asistente de IA (chat) ---------- */
+
+.chat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-height: 120px;
+  max-height: 360px;
+  overflow-y: auto;
+  padding: 0.25rem 0.1rem;
+}
+
+.chat-vacio {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-texto-discreto);
+}
+
+.chat-mensaje {
+  max-width: 78%;
+  padding: 0.6rem 0.85rem;
+  border-radius: var(--radio);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+
+.chat-usuario {
+  align-self: flex-end;
+  background: var(--color-primario-suave);
+  border: 1px solid var(--color-primario-suave-borde);
+  color: var(--color-texto);
+}
+
+.chat-asistente {
+  align-self: flex-start;
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde-fuerte);
+  color: var(--color-texto);
+}
+
+.chat-error {
+  background: var(--color-error-fondo);
+  border-color: transparent;
+  color: var(--color-error);
+}
+
+.chat-pensando {
+  font-style: italic;
+  color: var(--color-texto-suave);
+}
+
+.chat-form {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+}
+
+.chat-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--color-borde-fuerte);
+  border-radius: var(--radio);
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--color-texto);
+  background: var(--color-superficie-suave);
+}
+
+.chat-form input:focus {
+  outline: none;
+  border-color: var(--color-primario);
+  background: var(--color-superficie);
+  box-shadow: 0 0 0 3px var(--color-primario-suave);
+}
+
+.chat-form button {
+  padding: 0 1.25rem;
+  border: none;
+  border-radius: var(--radio);
+  background: var(--color-primario);
+  color: #ffffff;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.chat-form button:hover:not(:disabled) {
+  background: var(--color-primario-hover);
+}
+
+.chat-form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 720px) {
+  .chat-mensaje {
+    max-width: 92%;
+  }
+
+  .chat-form {
+    flex-direction: column;
+  }
+
+  .chat-form button {
+    padding: 0.7rem;
+  }
 }
 
 /* ---------- 9. Autenticación ---------- */
@@ -476,7 +980,10 @@
 
 .auth h1 {
   text-align: center;
-  color: #1e1b4b;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-primario);
   margin-bottom: 1.5rem;
 }
 
@@ -484,43 +991,64 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  background: white;
-  padding: 1.5rem;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(79, 70, 229, 0.08);
+  background: var(--color-superficie);
+  position: relative;
+  overflow: hidden;
+  padding: 1.75rem 1.5rem;
+  border: 1px solid var(--color-borde-fuerte);
+  border-radius: var(--radio-lg);
+  box-shadow: var(--sombra);
+}
+
+/* Franja de color arriba de la tarjeta de acceso */
+.auth-form::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--barra-categorias);
 }
 
 .auth-form h2 {
   margin: 0 0 0.5rem;
   font-size: 1.2rem;
-  color: #1e1b4b;
+  font-weight: 600;
+  color: var(--color-texto);
   text-align: center;
 }
 
 .auth-form input {
   padding: 0.65rem 0.85rem;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 10px;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
   font-size: 0.95rem;
   font-family: inherit;
-  background: #f8fafc;
+  color: var(--color-texto);
+  background: var(--color-superficie-suave);
 }
 
 .auth-form input:focus {
   outline: none;
-  border-color: #6366f1;
-  background: white;
+  border-color: var(--color-primario);
+  background: var(--color-superficie);
 }
 
 .auth-form button[type='submit'] {
   padding: 0.7rem;
   border: none;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-  color: white;
+  border-radius: var(--radio);
+  background: var(--color-primario);
+  color: #ffffff;
   font-weight: 600;
   font-family: inherit;
   cursor: pointer;
+  transition: background 0.15s;
+}
+
+.auth-form button[type='submit']:hover {
+  background: var(--color-primario-hover);
 }
 
 .auth-form button[type='submit']:disabled {
@@ -529,10 +1057,10 @@
 
 .auth-error {
   margin: 0;
-  color: #dc2626;
-  background: #fef2f2;
+  color: var(--color-error);
+  background: var(--color-error-fondo);
   padding: 0.5rem 0.75rem;
-  border-radius: 8px;
+  border-radius: var(--radio);
   font-size: 0.85rem;
 }
 
@@ -540,13 +1068,13 @@
   margin: 0.25rem 0 0;
   text-align: center;
   font-size: 0.85rem;
-  color: #64748b;
+  color: var(--color-texto-suave);
 }
 
 .auth-enlace {
   border: none;
   background: none;
-  color: #6366f1;
+  color: var(--color-secundario);
   font-weight: 600;
   cursor: pointer;
   font-family: inherit;
@@ -554,34 +1082,73 @@
   padding: 0;
 }
 
-/* Cabecera con cerrar sesión */
+/* Cabecera de la aplicación (barra superior a todo el ancho) */
 
-.app-cabecera {
+.app-header {
+  background: var(--color-superficie);
+  border-bottom: 1px solid var(--color-borde-fuerte);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.app-header-interior {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0.9rem 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.75rem;
 }
 
-.app-cabecera h1 {
-  margin: 0;
-  text-align: left;
+.app-marca {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-primario);
+}
+
+/* Secciones de contenido con título propio */
+
+.seccion {
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde-fuerte);
+  border-radius: var(--radio-lg);
+  padding: 1.5rem 1.75rem;
+  margin-top: 1.75rem;
+  box-shadow: var(--sombra);
+}
+
+.seccion .seccion-titulo {
+  margin: 0 0 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--color-borde);
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-primario);
 }
 
 .btn-salir {
-  padding: 0.4rem 0.95rem;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 999px;
-  background: white;
-  color: #64748b;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--color-borde-fuerte);
+  border-radius: var(--radio);
+  background: var(--color-superficie-suave);
+  color: var(--color-texto);
   font-family: inherit;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 600;
   cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
 
 .btn-salir:hover {
-  border-color: #dc2626;
-  color: #dc2626;
+  background: var(--color-error-fondo);
+  border-color: var(--color-error);
+  color: var(--color-error);
 }
 
 /* Saldo en el resumen */
@@ -598,7 +1165,7 @@
 }
 
 .saldo-disponible {
-  border-top: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
   margin-top: 0.35rem;
   padding-top: 0.6rem;
   font-size: 1.25rem;
@@ -626,13 +1193,6 @@
 
   .analisis-grid {
     grid-template-columns: 1fr;
-  }
-
-  /* Cabecera: título y botón de salir se apilan */
-  .app-cabecera {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
   }
 
   /* Formulario a una sola columna, más cómodo de rellenar con el dedo */
@@ -667,10 +1227,6 @@
 
   .gasto-desc {
     flex-basis: 100%;
-  }
-
-  .gasto-item:hover {
-    transform: none;
   }
 
   /* Etiquetas del gráfico/barras más estrechas para dejar sitio a la barra */

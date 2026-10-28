@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
+import { formatearEuros } from "./formato";
 import type { Gasto, Analisis } from './types';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
@@ -7,10 +8,11 @@ import {
 
 interface AnalisisProps {
   gastos: Gasto[];
+  acciones?: ReactNode; // botones extra que se muestran al final de la caja
 }
 
 // Colores de las porciones, a juego con la paleta de la app
-const COLORES_TARTA = ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981'];
+const COLORES_TARTA = ['#4c1d95', '#8b5cf6', '#0f5e63', '#64748b', '#a78bfa'];
 
 // Para ordenar y traducir los días que devuelve pandas (en inglés)
 const ORDEN_DIAS = [
@@ -21,7 +23,7 @@ const DIAS_ES: Record<string, string> = {
   Friday: 'Vie', Saturday: 'Sáb', Sunday: 'Dom',
 };
 
-function AnalisisPanel({ gastos }: AnalisisProps) {
+function AnalisisPanel({ gastos, acciones }: AnalisisProps) {
   // Los TRES estados de toda petición asíncrona:
   const [analisis, setAnalisis] = useState<Analisis | null>(null); // datos
   const [cargando, setCargando] = useState(false);                 // en curso
@@ -40,7 +42,7 @@ function AnalisisPanel({ gastos }: AnalisisProps) {
 
       // fetch NO lanza error con respuestas 4xx/5xx: hay que comprobarlo
       if (!respuesta.ok) {
-        throw new Error(`Error del servidor: ${respuesta.status}`);
+        throw new Error('El análisis no está disponible ahora. Inténtalo de nuevo en un momento.');
       }
 
       const datos = (await respuesta.json()) as Analisis;
@@ -48,7 +50,11 @@ function AnalisisPanel({ gastos }: AnalisisProps) {
     } catch (err) {
       // Si la API está apagada, fetch lanza TypeError y caemos aquí
       setError(
-        err instanceof Error ? err.message : 'No se pudo conectar con la API'
+        err instanceof TypeError
+          ? 'No se pudo conectar con el servidor. Inténtalo de nuevo en un momento.'
+          : err instanceof Error
+            ? err.message
+            : 'El análisis no está disponible ahora. Inténtalo de nuevo en un momento.'
       );
     } finally {
       setCargando(false); // pase lo que pase, dejamos de "cargar"
@@ -58,20 +64,20 @@ function AnalisisPanel({ gastos }: AnalisisProps) {
   return (
     <div className="analisis">
       <div className="analisis-cabecera">
-        <h2>📊 Análisis de datos</h2>
+        <h2>Análisis de datos</h2>
         <button onClick={pedirAnalisis} disabled={cargando || gastos.length === 0}>
           {cargando ? 'Analizando…' : 'Analizar gastos'}
         </button>
       </div>
 
-      {error && <p className="analisis-error">⚠️ {error}</p>}
+      {error && <p className="analisis-error">{error}</p>}
 
       {analisis && !error && (
         <div className="analisis-contenido">
           {/* ---- Cifras clave, a lo ancho ---- */}
           <div className="analisis-cifras">
             <div className="cifra">
-              <span className="cifra-valor">{analisis.total.toFixed(2)} €</span>
+              <span className="cifra-valor">{formatearEuros(analisis.total)}</span>
               <span className="cifra-etiqueta">Total</span>
             </div>
             <div className="cifra">
@@ -79,7 +85,7 @@ function AnalisisPanel({ gastos }: AnalisisProps) {
               <span className="cifra-etiqueta">Gastos</span>
             </div>
             <div className="cifra">
-              <span className="cifra-valor">{analisis.gasto_medio.toFixed(2)} €</span>
+              <span className="cifra-valor">{formatearEuros(analisis.gasto_medio)}</span>
               <span className="cifra-etiqueta">Gasto medio</span>
             </div>
             <div className="cifra">
@@ -87,17 +93,16 @@ function AnalisisPanel({ gastos }: AnalisisProps) {
               <span className="cifra-etiqueta">Categoría top</span>
             </div>
             <div className="cifra">
-              <span className="cifra-valor">{analisis.ritmo_diario.toFixed(2)} €</span>
+              <span className="cifra-valor">{formatearEuros(analisis.ritmo_diario)}</span>
               <span className="cifra-etiqueta">Ritmo diario</span>
             </div>
             {analisis.prediccion_mes_siguiente !== null && (
               <div className="cifra cifra-prediccion">
                 <span className="cifra-valor">
-                  {analisis.prediccion_mes_siguiente.toFixed(2)} €
+                  {formatearEuros(analisis.prediccion_mes_siguiente)}
                 </span>
                 <span className="cifra-etiqueta">
-                  Previsión próximo mes ({analisis.tendencia}{' '}
-                  {analisis.tendencia === 'subiendo' ? '📈' : '📉'})
+                  Previsión próximo mes ({analisis.tendencia})
                 </span>
               </div>
             )}
@@ -123,9 +128,9 @@ function AnalisisPanel({ gastos }: AnalisisProps) {
                   <Line
                     type="monotone"
                     dataKey="importe"
-                    stroke="#6366f1"
+                    stroke="#4c1d95"
                     strokeWidth={3}
-                    dot={{ fill: '#6366f1', r: 5 }}
+                    dot={{ fill: '#4c1d95', r: 5 }}
                     activeDot={{ r: 7 }}
                   />
                 </LineChart>
@@ -161,7 +166,7 @@ function AnalisisPanel({ gastos }: AnalisisProps) {
                   </Pie>
                   <Tooltip
                     formatter={(valor) => [
-                      `${Number(valor).toFixed(2)} €`,
+                      `${formatearEuros(Number(valor))}`,
                       'Total',
                     ]}
                   />
@@ -186,7 +191,7 @@ function AnalisisPanel({ gastos }: AnalisisProps) {
                   <XAxis dataKey="dia" tick={{ fontSize: 12 }} />
                   <YAxis tick={{ fontSize: 12 }} unit=" €" />
                   <Tooltip formatter={(valor) => [`${valor} €`, 'Media']} />
-                  <Bar dataKey="media" fill="#8b5cf6" radius={[6, 6, 0, 0]} />
+                  <Bar dataKey="media" fill="#0f5e63" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -197,7 +202,7 @@ function AnalisisPanel({ gastos }: AnalisisProps) {
               <ol className="analisis-top">
                 {analisis.top3.map((g) => (
                   <li key={g.descripcion}>
-                    {g.descripcion} — <strong>{g.importe.toFixed(2)} €</strong>
+                    {g.descripcion} — <strong>{formatearEuros(g.importe)}</strong>
                   </li>
                 ))}
               </ol>
@@ -207,13 +212,13 @@ function AnalisisPanel({ gastos }: AnalisisProps) {
                 <li>
                   <span>Entre semana</span>
                   <strong>
-                    {analisis.finde_vs_semana.entre_semana.toFixed(2)} €
+                    {formatearEuros(analisis.finde_vs_semana.entre_semana)}
                   </strong>
                 </li>
                 <li>
                   <span>Fin de semana</span>
                   <strong>
-                    {analisis.finde_vs_semana.fin_de_semana.toFixed(2)} €
+                    {formatearEuros(analisis.finde_vs_semana.fin_de_semana)}
                   </strong>
                 </li>
               </ul>
@@ -226,7 +231,7 @@ function AnalisisPanel({ gastos }: AnalisisProps) {
             {Object.entries(analisis.porcentajes)
               .sort(([, a], [, b]) => b - a)
               .map(([cat, pct]) => (
-                <div key={cat} className="grafico-fila">
+                <div key={cat} className={`grafico-fila cat-${cat}`}>
                   <span className="analisis-barra-etiqueta">{cat}</span>
                   <div className="analisis-barra-fondo">
                     <div className="analisis-barra" style={{ width: `${pct}%` }}>
@@ -238,6 +243,8 @@ function AnalisisPanel({ gastos }: AnalisisProps) {
           </div>
         </div>
       )}
+
+      {acciones && <div className="analisis-acciones">{acciones}</div>}
     </div>
   );
 }

@@ -19,6 +19,7 @@ function GastoForm({
   const [importe, setImporte] = useState('');
   const [categoria, setCategoria] = useState<Categoria>('comida');
   const [fecha, setFecha] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
   // ¿Estamos en modo edición? (booleano derivado, muy legible en el JSX)
   const editando = gastoEnEdicion !== null;
@@ -43,9 +44,10 @@ function GastoForm({
 
     const importeNum = Number(importe);
     if (!descripcion.trim() || !importe || importeNum <= 0 || !fecha) {
-      alert('Rellena todos los campos con valores válidos');
+      setError('Rellena todos los campos con valores válidos');
       return;
     }
+    setError(null);
 
     if (editando) {
       // Modo edición: conservamos el id original
@@ -68,9 +70,9 @@ function GastoForm({
     }
 
     // Limpiamos (en edición, el useEffect también limpiará al volver a null)
+    // La categoría y la fecha se mantienen para el siguiente gasto
     setDescripcion('');
     setImporte('');
-    setFecha('');
   };
 
   return (
@@ -117,6 +119,8 @@ function GastoForm({
           Cancelar
         </button>
       )}
+
+      {error && <p className="error-campo" role="alert">{error}</p>}
     </form>
   );
 }
