@@ -1258,3 +1258,40 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ---------- Campos de dinero: símbolo € dentro de la caja ---------- */
+.campo-euro {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+.campo-euro input {
+  padding-right: 2.2rem;
+}
+
+/* Sin las flechas del navegador, que taparían el símbolo */
+.campo-euro input[type='number']::-webkit-inner-spin-button,
+.campo-euro input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.campo-euro input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+.simbolo-euro {
+  position: absolute;
+  right: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-texto-suave);
+  font-size: 0.95rem;
+  pointer-events: none;
+}
+
+.anadir-form .campo-euro {
+  flex: 1;
+}

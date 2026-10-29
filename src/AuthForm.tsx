@@ -61,14 +61,17 @@ function AuthForm({ onAutenticado }: AuthFormProps) {
 
         {/* El saldo inicial solo aparece al registrarse */}
         {modo === 'registro' && (
-          <input
-            type="number"
-            placeholder="¿Cuánto dinero tienes ahora? (€)"
-            step="0.01"
-            min="0"
-            value={saldoInicial}
-            onChange={(e) => setSaldoInicial(e.target.value)}
-          />
+          <div className="campo-euro">
+            <input
+              type="number"
+              placeholder="¿Cuánto dinero tienes ahora?"
+              step="0.01"
+              min="0"
+              value={saldoInicial}
+              onChange={(e) => setSaldoInicial(e.target.value)}
+            />
+            <span className="simbolo-euro" aria-hidden="true">€</span>
+          </div>
         )}
 
         {error && <p className="auth-error">{error}</p>}

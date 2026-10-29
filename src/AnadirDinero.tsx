@@ -32,15 +32,18 @@ function AnadirDinero({ onAnadirDinero }: AnadirDineroProps) {
     <div className="anadir">
       <h3 className="bloque-titulo">Añadir dinero</h3>
       <form className="anadir-form" onSubmit={manejarSubmit}>
-        <input
-          type="number"
-          step="0.01"
-          min="0.01"
-          placeholder="Cantidad (€)"
-          value={cantidad}
-          onChange={(e) => setCantidad(e.target.value)}
-          aria-label="Cantidad a añadir"
-        />
+        <div className="campo-euro">
+          <input
+            type="number"
+            step="0.01"
+            min="0.01"
+            placeholder="Cantidad"
+            value={cantidad}
+            onChange={(e) => setCantidad(e.target.value)}
+            aria-label="Cantidad a añadir"
+          />
+          <span className="simbolo-euro" aria-hidden="true">€</span>
+        </div>
         <button type="submit" disabled={guardando || !valido}>
           Añadir
         </button>

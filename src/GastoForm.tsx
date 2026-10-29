@@ -84,14 +84,17 @@ function GastoForm({
         onChange={(e) => setDescripcion(e.target.value)}
       />
 
-      <input
-        type="number"
-        placeholder="Importe (€)"
-        step="0.01"
-        min="0"
-        value={importe}
-        onChange={(e) => setImporte(e.target.value)}
-      />
+      <div className="campo-euro">
+        <input
+          type="number"
+          placeholder="Importe"
+          step="0.01"
+          min="0"
+          value={importe}
+          onChange={(e) => setImporte(e.target.value)}
+        />
+        <span className="simbolo-euro" aria-hidden="true">€</span>
+      </div>
 
       <select
         value={categoria}
